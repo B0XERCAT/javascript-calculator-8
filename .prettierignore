@@ -1,0 +1,5 @@
+package*
+.npmrc
+*.md
+.*
+__tests__
