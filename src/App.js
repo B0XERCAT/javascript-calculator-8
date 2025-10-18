@@ -1,6 +1,6 @@
 import { Console } from '@woowacourse/mission-utils';
 
-const CUSTOM_DELIMITER_EXTRACTOR = /^\/\/([^0-9])\\n/;
+const CUSTOM_DELIMITER_EXTRACTOR = /^\/\/([^0-9]+)\\n/;
 const DEFAULT_DELIMITER = /,|:/;
 
 class App {
@@ -30,7 +30,13 @@ function extractCustomDelimiter(input) {
 
 function extractNumbers(input, delimiter) {
   const splits = input.split(delimiter);
-  const numbers = splits.map(Number);
+  const numbers = splits.map((value) => {
+    const parsed = Number(value);
+    if(isNaN(parsed)) {
+      throw new Error('[ERROR] 숫자가 아닌 값이 포함되어 있습니다.');
+    }
+    return parsed;
+  });
   return numbers;
 }
 
