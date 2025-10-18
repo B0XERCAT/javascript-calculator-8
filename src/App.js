@@ -40,7 +40,7 @@ function extractNumbers(input, delimiter) {
   const splits = input.split(delimiter);
   const numbers = splits.map((value) => {
     const parsed = Number(value);
-    if(isNaN(parsed)) {
+    if(Number.isNaN(parsed)) {
       throw new Error('[ERROR] 숫자가 아닌 값이 포함되어 있습니다.');
     }
     return parsed;
