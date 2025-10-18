@@ -3,29 +3,37 @@ import { Console } from '@woowacourse/mission-utils';
 const CUSTOM_DELIMITER_EXTRACTOR = /^\/\/([^0-9])\\n/;
 const DEFAULT_DELIMITER = /,|:/;
 
-function extractNumbers(inputString, delimiter) {
-  const splitValues = inputString.split(delimiter);
-  const parsedNumbers = splitValues.map(Number);
-  return parsedNumbers;
-}
-
 class App {
   async run() {
     Console.readLine('덧셈할 문자열을 입력해 주세요.\n', (userInput) => {
-      const customDelimiterMatch = userInput.match(CUSTOM_DELIMITER_EXTRACTOR);
-      let parsedNumbers;
+      const customDelimiter = extractCustomDelimiter(userInput);
+      let numbers;
 
-      if (customDelimiterMatch) {
-        const numberSection = userInput.split('\\n')[1];
-        const customDelimiter = customDelimiterMatch[1];
-        parsedNumbers = extractNumbers(numberSection, customDelimiter);
+      if (customDelimiter) {
+        const numberSection = extractNumberSection(userInput);
+        numbers = extractNumbers(numberSection, customDelimiter);
       } else {
-        parsedNumbers = extractNumbers(userInput, DEFAULT_DELIMITER);
+        numbers = extractNumbers(userInput, DEFAULT_DELIMITER);
       }
 
       // print sum of numbers
     });
   }
+}
+
+function extractCustomDelimiter(input) {
+  const match = input.match(CUSTOM_DELIMITER_EXTRACTOR);
+  return match ? match[1] : null;
+}
+
+function extractNumbers(input, delimiter) {
+  const splits = input.split(delimiter);
+  const numbers = splits.map(Number);
+  return numbers;
+}
+
+function extractNumberSection(input) {
+  return input.split('\\n')[1];
 }
 
 export default App;
