@@ -16,7 +16,9 @@ class App {
         numbers = extractNumbers(userInput, DEFAULT_DELIMITER);
       }
 
-      // print sum of numbers
+      const sum = sumNumbers(numbers);
+
+      Console.print(`결과 : ${sum}`);
     });
   }
 }
@@ -34,6 +36,11 @@ function extractNumbers(input, delimiter) {
 
 function extractNumberSection(input) {
   return input.split('\\n')[1];
+}
+
+function sumNumbers(numbers) {
+  const sum = numbers.reduce((acc, cur) => acc + cur);
+  return sum;
 }
 
 export default App;
