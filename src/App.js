@@ -6,26 +6,34 @@ const DEFAULT_DELIMITER = /,|:/;
 class App {
   async run() {
     Console.readLine('덧셈할 문자열을 입력해 주세요.\n', (userInput) => {
-      const customDelimiter = extractCustomDelimiter(userInput);
-      let numbers;
+    const customDelimiter = extractCustomDelimiter(userInput);
+    let numbers;
 
-      if (customDelimiter) {
-        const numberSection = extractNumberSection(userInput);
-        numbers = extractNumbers(numberSection, customDelimiter);
-      } else {
-        numbers = extractNumbers(userInput, DEFAULT_DELIMITER);
-      }
+    if (customDelimiter) {
+      const numberSection = extractNumberSection(userInput);
+      numbers = extractNumbers(numberSection, customDelimiter);
+    } else {
+      numbers = extractNumbers(userInput, DEFAULT_DELIMITER);
+    }
 
-      const sum = sumNumbers(numbers);
+    const sum = sumNumbers(numbers);
 
-      Console.print(`결과 : ${sum}`);
+    Console.print(`결과 : ${sum}`);
     });
   }
 }
 
 function extractCustomDelimiter(input) {
   const match = input.match(CUSTOM_DELIMITER_EXTRACTOR);
-  return match ? match[1] : null;
+
+  if (!match) return null;
+
+  const delimiter = match[1];
+  if (delimiter.length !== 1) {
+    throw new Error('[ERROR] 커스텀 구분자는 한 글자만 허용됩니다.');
+  }
+
+  return delimiter;
 }
 
 function extractNumbers(input, delimiter) {
